@@ -3,6 +3,13 @@
 #include <vector>
 #include <iostream>
 
+enum search_box {
+    PERSON_ID = 1,
+    TITLE_ID = 2,
+    TITLE_CHECK = 3,
+    TITLE_NAME = 4
+};
+
 struct title_t {
     std::string title_name;
     std::string title_type;
@@ -36,14 +43,8 @@ struct arguments_t {
     }
 };
 
-std::vector <std::string> str_split_to_vect(std::string& str, char sep);
-
-void person_id_search_by_name(std::ifstream& file, person_t& pers);
-
-void title_id_search_by_person_id(std::ifstream& file, person_t& pers);
-
-void movie_check_by_title_id(std::ifstream& file, person_t& pers);
-
-void title_search_by_title_id(std::ifstream& file, person_t& pers);
-
 arguments_t get_arguments(int argc, char *argv[]);
+
+void search_field(std::ifstream& file, person_t& pers, search_box field);
+
+void str_split(std::string& str, char sep, std::vector <std::string>& str_vect);
