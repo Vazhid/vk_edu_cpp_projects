@@ -4,101 +4,67 @@
 #include <string_view>
 #include <vector>
 #include <algorithm>
-using namespace std;
+#include <getopt.h>
 
 #include "foo.hpp"
 
-string filename_with_persons;
-string filename_with_actor_movie_link;
-string filename_with_titles_akas;
-string filename_with_titles_basics;
-int count_of_filenames = 0;
-
 int main(int argc, char *argv[]) {
-    string person_name;
-    person tmp;
-
-    if (argc > 1) {
-        person_name = static_cast<string>(argv[1]) + " " + static_cast<string>(argv[2]);
-
-        for (size_t i = 3; i < argc; i++) {
-            if (static_cast<string>(argv[i]) == "--title-principals-path") {
-                filename_with_actor_movie_link = static_cast<string>(argv[i + 1]);
-                count_of_filenames++;
-
-            } else if (static_cast<string>(argv[i]) == "--title-akas-path") {
-                filename_with_titles_akas = static_cast<string>(argv[i + 1]);
-                count_of_filenames++;
-
-            } else if (static_cast<string>(argv[i]) == "--title-basics-path") {
-                filename_with_titles_basics = static_cast<string>(argv[i + 1]);
-                count_of_filenames++;
-
-            } else if (static_cast<string>(argv[i]) == "--name-basics-path") {
-                filename_with_persons = static_cast<string>(argv[i + 1]);
-                count_of_filenames++;
-            }
-        }
-
-        if (count_of_filenames < 4) {
-            cerr << "Where my arguments?" << endl;
-            return 1;
-        }
-
-        tmp.primary_name = person_name;
-    } else {
-        cerr << "The peson's name was not transmitted!" << std::endl;
-        return 1;
-    }
-
-    ifstream names{ filename_with_persons };
-
-    if(!names) {
-        cerr << filename_with_persons << " could not be opened for reading!" << std::endl;
-        return 1;
-    }
-
-    ifstream links{ filename_with_actor_movie_link };
+    person_t tmp;
+    arguments_t args = get_arguments(argc, argv);
     
-    if(!links) {
-        cerr << filename_with_actor_movie_link << " could not be opened for reading!" << std::endl;
+    if (!args.is_full()) {
+        std::cerr << "Invalid numbers of arguments!" << std::endl;
         return 1;
     }
 
-    ifstream tit_basics{ filename_with_titles_basics };
+    std::ifstream names(args.filename_with_persons);
 
-    if(!tit_basics) {
-        cerr << filename_with_titles_basics << " could not be opened for reading!" << std::endl;
+    if(!names.is_open()) {
+        std::cerr << args.filename_with_persons << " could not be opened for reading!" << std::endl;
         return 1;
     }
 
-    ifstream tit_akas{ filename_with_titles_akas };
-
-    if(!tit_akas) {
-        cerr << filename_with_titles_akas << " could not be opened for reading!" << std::endl;
+    std::ifstream links(args.filename_with_actor_movie_link);
+    
+    if(!links.is_open()) {
+        std::cerr <<args.filename_with_actor_movie_link << " could not be opened for reading!" << std::endl;
         return 1;
     }
 
-    nconst_search_by_name_in_file(names, tmp);
+    std::ifstream tit_basics(args.filename_with_titles_basics);
 
-    if (!tmp.nconst.empty()) {
-        tconst_search_by_nconst_in_file(links, tmp);
+    if(!tit_basics.is_open()) {
+        std::cerr << args.filename_with_titles_basics << " could not be opened for reading!" << std::endl;
+        return 1;
+    }
+
+    std::ifstream tit_akas(args.filename_with_titles_akas);
+
+    if(!tit_akas.is_open()) {
+        std::cerr << args.filename_with_titles_akas << " could not be opened for reading!" << std::endl;
+        return 1;
+    }
+
+    person_id_search_by_name(names, tmp);
+
+    if (!tmp.id.empty()) {
+        title_id_search_by_person_id(links, tmp);
 
         if (!tmp.titile_list.empty()) {
-            movie_check_by_tconst_in_file(tit_basics, tmp);
-            title_search_by_tconst_in_file(tit_akas, tmp);  
+            movie_check_by_title_id(tit_basics, tmp);
+            title_search_by_title_id(tit_akas, tmp);  
         } else {
-            cerr << "This person has not acted in films!" << std::endl;
+            std::cerr << "This person has not acted in films!" << std::endl;
             return 1;
         }
     } else {
-        cerr << "Name was not found in the database!\nCheck it to make sure it is correct!" << std::endl;
+        std::cerr << "Name was not found in the database!\nCheck it to make sure it is correct!" << std::endl;
         return 1;
     }
 
     for (size_t i = 0; i < tmp.titile_list.size(); i++) {
-        if (!tmp.titile_list[i].title_name.empty() && tmp.titile_list[i].is_movie) {
-            cout << tmp.titile_list[i].title_name << endl;
+        if (!tmp.titile_list[i].title_name.empty() && tmp.titile_list[i].is_movie()) {
+            std::cout << tmp.titile_list[i].title_name << std::endl;
         }
     }
 
