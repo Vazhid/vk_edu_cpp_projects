@@ -1,14 +1,20 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string_view>
-#include <vector>
-#include <algorithm>
-#include <getopt.h>
-
 #include "foo.hpp"
 
-void search_field(std::ifstream& file, person_t& pers, search_box field) {
+bool title_t::is_movie() {
+    return (title_type == "movie") ? true : false;
+}
+
+bool arguments_t::is_full() {
+    return (!person_name.empty() && 
+        !person_surname.empty() &&
+        !filename_with_persons.empty() &&
+        !filename_with_titles_akas.empty() &&
+        !filename_with_titles_basics.empty() &&
+        !filename_with_actor_movie_link.empty())
+        ? true : false;
+}
+
+void search_field(std::istream& file, person_t& pers, search_box field) {
     std::string str_input;
     std::vector <std::string> vect_of_tokens;
     title_t tmp_title;
@@ -63,9 +69,8 @@ void str_split(std::string& str, char sep, std::vector <std::string>& str_vect) 
     }   
 }
 
-arguments_t get_arguments(int argc, char *argv[]) {
+void get_arguments(int argc, char *argv[], arguments_t& args) {
     int c, option_index;
-    arguments_t args;
     std::string name_flag = "name";
     std::string surname_flag = "surname";
     std::string title_akas_path_flag = "title-akas-path";
@@ -105,5 +110,4 @@ arguments_t get_arguments(int argc, char *argv[]) {
             args.filename_with_actor_movie_link = optarg;
         }
     }
-    return args;
 }

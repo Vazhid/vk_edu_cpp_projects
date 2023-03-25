@@ -1,17 +1,9 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string_view>
-#include <vector>
-#include <algorithm>
-#include <getopt.h>
-#include <time.h>
-
 #include "foo.hpp"
 
 int main(int argc, char *argv[]) {
     person_t tmp;
-    arguments_t args = get_arguments(argc, argv);
+    arguments_t args;
+    get_arguments(argc, argv, args);
     
     tmp.primary_name = args.person_name + " " + args.person_surname;
     
