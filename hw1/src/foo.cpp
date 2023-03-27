@@ -1,7 +1,7 @@
 #include "foo.hpp"
 
 bool title_t::is_movie() {
-    return (title_type == "movie") ? true : false;
+    return (title_type == MOVIE_COLNAME) ? true : false;
 }
 
 bool arguments_t::is_full() {
@@ -25,29 +25,31 @@ void search_field(std::istream& file, person_t& pers, search_box field) {
 
         switch (field) {
         case PERSON_ID:
-            if (vect_of_tokens[1] == pers.primary_name) {
-                pers.id = vect_of_tokens[0];
+            if (vect_of_tokens[PRIMARY_NAME_INDEX_IN_NAMES] == pers.primary_name) {
+                pers.id = vect_of_tokens[PERSON_ID_INDEX_IN_NAMES];
                 break;
             }
         
         case TITLE_ID:
-            if (vect_of_tokens[2] == pers.id && (vect_of_tokens[3] == "actor" || vect_of_tokens[3] == "actress")){
-                tmp_title.id = vect_of_tokens[0];
+            if (vect_of_tokens[PERSON_ID_INDEX_IN_LINKS] == pers.id && 
+            (vect_of_tokens[PERSON_WORK_INDEX] == ACTOR_COLNAME || vect_of_tokens[PERSON_WORK_INDEX] == ACTRESS_COLNAME)) {
+                tmp_title.id = vect_of_tokens[TITLE_ID_INDEX_IN_LINKS];
                 pers.titile_list.push_back(tmp_title);
             }
         
         case TITLE_CHECK:
             for (size_t i = 0; i < pers.titile_list.size(); i++) {
-                if (vect_of_tokens[0] == pers.titile_list[i].id) {
-                    pers.titile_list[i].title_type == vect_of_tokens[1];
-                    pers.titile_list[i].title_name = vect_of_tokens[3];
+                if (vect_of_tokens[PERSON_ID_INDEX_IN_TITLES] == pers.titile_list[i].id) {
+                    pers.titile_list[i].title_type == vect_of_tokens[TITLE_TYPE_INDEX_IN_TITLES];
+                    pers.titile_list[i].title_name = vect_of_tokens[TITLE_NAME_INDEX_IN_TITLES];
                 }
             }
 
         case TITLE_NAME:
             for (size_t i = 0; i < pers.titile_list.size(); i++) {
-                if (vect_of_tokens[0] == pers.titile_list[i].id && vect_of_tokens[3] == "RU") {
-                    pers.titile_list[i].title_name = vect_of_tokens[2];
+                if (vect_of_tokens[PERSON_ID_INDEX_IN_TITLES_NAMES] == pers.titile_list[i].id && 
+                vect_of_tokens[LANG_COLUMN_INDEX_IN_TITLES_NAMES] == RU_COLNAME) {
+                    pers.titile_list[i].title_name = vect_of_tokens[TITLE_NAME_INDEX_IN_TITLES_NAMES];
                 } 
             }
             
