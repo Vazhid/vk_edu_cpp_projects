@@ -1,4 +1,4 @@
-#include "foo.hpp"
+#include "useful_utils.hpp"
 
 bool title_t::is_movie() {
     return (title_type == MOVIE_COLNAME) ? true : false;
@@ -73,12 +73,6 @@ void str_split(std::string& str, char sep, std::vector <std::string>& str_vect) 
 
 void get_arguments(int argc, char *argv[], arguments_t& args) {
     int c, option_index;
-    std::string name_flag = "name";
-    std::string surname_flag = "surname";
-    std::string title_akas_path_flag = "title-akas-path";
-    std::string name_basics_path_flag = "name-basics-path"; 
-    std::string title_basics_path_flag = "title-basics-path"; 
-    std::string title_principals_path_flag = "title-principals-path";
 
     static struct option long_options[] {
         {"name", required_argument, 0, 0},
@@ -93,22 +87,22 @@ void get_arguments(int argc, char *argv[], arguments_t& args) {
     while (c = (getopt_long_only(argc, argv, "", long_options, &option_index)) != -1)
     {
         std::string argument = long_options[option_index].name;
-        if(argument == name_flag) {
+        if(argument == NAME_FLAG) {
             args.person_name = optarg;
         }
-        if(argument == surname_flag) {
+        if(argument == SURNAME_FLAG) {
             args.person_surname = optarg;
         }
-        if(argument == title_akas_path_flag) {
+        if(argument == TITLE_AKAS_PATH_FLAG) {
             args.filename_with_titles_akas = optarg;
         }
-        if(argument == title_basics_path_flag) {
+        if(argument == TITLE_BASICS_PATH_FLAG) {
             args.filename_with_titles_basics = optarg;
         }
-        if(argument == name_basics_path_flag) {
+        if(argument == NAME_BASICS_PATH_FLAG) {
             args.filename_with_persons = optarg;
         }
-        if(argument == title_principals_path_flag) {
+        if(argument == TITLE_PRINCIPALS_PATH_FLAG) {
             args.filename_with_actor_movie_link = optarg;
         }
     }

@@ -6,6 +6,13 @@
 #include <vector>
 #include <getopt.h>
 
+#define NAME_FLAG "name"
+#define SURNAME_FLAG "surname"
+#define TITLE_AKAS_PATH_FLAG "title-akas-path"
+#define NAME_BASICS_PATH_FLAG "name-basics-path"
+#define TITLE_BASICS_PATH_FLAG "title-basics-path"
+#define TITLE_PRINCIPALS_PATH_FLAG "title-principals-path"
+
 #define MOVIE_COLNAME "movie"
 #define ACTOR_COLNAME "actor"
 #define ACTRESS_COLNAME "actress"
