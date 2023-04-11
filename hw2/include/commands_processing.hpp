@@ -1,14 +1,18 @@
 #pragma once
 
 #include <iostream>
-#include <utility>
-#include <functional>
 #include <sstream>
 #include <vector>
-#include <getopt.h>
 
-void GetArguments(std::string& firs_arg, 
-                  std::vector<std::string>& all_args, 
-                  std::vector<std::pair<std::string,std::string>>& vect_of_commands);
+#define ECHO "echo"
+#define CAT "cat"
+#define REPLACE "replace"
+#define INITIAL_STR ""
 
-void StrToVect(const std::string& str, char sep, std::vector <std::string>& str_vect);
+struct operation_t {
+    std::string command;
+    std::string first;
+    std::string second;
+};
+
+void StrToVect(std::string& str, std::string& sep, const int sep_len, std::vector <std::string>& str_vect);

@@ -1,30 +1,21 @@
 #include "operations.hpp"
 
-void EchoOperation::ProcessLine(const std::string& str) {
-    std::cout << text_ << std::endl;;
-    HandleEndOfInput();
-}
+void EchoOperation::ProcessLine(const std::string& str) {}
 
 void EchoOperation::HandleEndOfInput() {
-    performed_ = true;
+    std::cout << text_ << std::endl;
 }
 
 void EchoOperation::SetNextOperation(IOperation& operation) {
     operation.ProcessLine(text_);
+    operation.HandleEndOfInput();
 }
-
-std::string EchoOperation::GetText() {
-    return text_;
-}
-
-bool EchoOperation::IsPerformed() {
-    return performed_;
-}
-
 
 void CatOperation::ProcessLine(const std::string& str) {
     text_ = std::move(str);
-    
+}
+
+void CatOperation::HandleEndOfInput() {
     std::string str_input;
     std::ifstream file{filename_};
 
@@ -32,54 +23,27 @@ void CatOperation::ProcessLine(const std::string& str) {
         std::cerr << filename_ << " could not be opened for reading!" << std::endl;
     }
 
-    while (file) {
-        getline(file, str_input, '\n');
+    while (getline(file, str_input)) {
         text_ += "\n" + str_input;
         std::cout << str_input << std::endl;
         str_input.clear();
     }
-
-    HandleEndOfInput();
-}
-
-void CatOperation::HandleEndOfInput() {
-    performed_ = true;
 }
 
 void CatOperation::SetNextOperation(IOperation& operation) {
-    operation.ProcessLine(std::move(text_));
+    operation.ProcessLine(text_);
+    operation.HandleEndOfInput();
 }
-
-std::string CatOperation::GetFilename() {
-    return filename_;
-}
-
-std::string CatOperation::GetText() {
-    return text_;
-}
-
-bool CatOperation::IsPerformed() {
-    return performed_;
-}
-
 
 void ReplaceOperation::ProcessLine(const std::string& str) {
-
+    text_ = std::move(str);
 }
 
 void ReplaceOperation::HandleEndOfInput() {
-    performed_ = true;
+    text_ = std::regex_replace(text_, std::regex(replaceable_), replacing_);
+    std::cout << text_ << std::endl;
 }
 
 void ReplaceOperation::SetNextOperation(IOperation& operation) {
     operation.ProcessLine(text_);
-}
-
-std::string ReplaceOperation::GetText() {
-    return text_;
-}
-
-
-bool ReplaceOperation::IsPerformed() {
-    return performed_;
 }
