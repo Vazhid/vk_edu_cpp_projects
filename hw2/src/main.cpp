@@ -1,3 +1,5 @@
+// Copyright 2023 Vazhid
+
 #include "operations.hpp"
 #include "commands_processing.hpp"
 
@@ -6,7 +8,7 @@ int main(int argc, char *argv[]) {
         std::cerr << "Invalid numbers of arguments!" << std::endl;
         return 1;
     }
-    
+
     std::vector<std::string> vect;
     auto string_of_commands = std::string(argv[1]);
     std::string line_sep = " | ";
@@ -43,16 +45,17 @@ int main(int argc, char *argv[]) {
             vect_of_oper_ptr.push_back(std::move(cat));
         }
         if (operation.command == REPLACE) {
-            auto replace = std::make_unique<ReplaceOperation>(operation.first, operation.second);
+            auto replace = std::make_unique<ReplaceOperation>(operation.first,
+                                                              operation.second);
             vect_of_oper_ptr.push_back(std::move(replace));
         }
     }
-    
+
     vect_of_oper_ptr[0]->ProcessLine(INITIAL_STR);
     vect_of_oper_ptr[0]->HandleEndOfInput();
     for (size_t i = 0; i < vect_of_operations.size() - 1; i++) {
         vect_of_oper_ptr[i]->SetNextOperation(*vect_of_oper_ptr[i + 1]);
     }
-    
+
     return 0;
 }

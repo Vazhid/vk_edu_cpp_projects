@@ -1,3 +1,5 @@
+// Copyright 2023 Vazhid
+
 #include "operations.hpp"
 
 void EchoOperation::ProcessLine(const std::string& str) {}
@@ -20,7 +22,10 @@ void CatOperation::HandleEndOfInput() {
     std::ifstream file{filename_};
 
     if (!file.is_open()) {
-        std::cerr << filename_ << " could not be opened for reading!" << std::endl;
+        std::cerr
+            << filename_
+            << " could not be opened for reading!"
+            << std::endl;
     }
 
     while (getline(file, str_input)) {
