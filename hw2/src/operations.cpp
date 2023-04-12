@@ -1,5 +1,3 @@
-// Copyright 2023 Vazhid
-
 #include "operations.hpp"
 
 void EchoOperation::ProcessLine(const std::string& str) {}

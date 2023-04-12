@@ -1,5 +1,3 @@
-// Copyright 2023 Vazhid
-
 #pragma once
 
 #include <iostream>
