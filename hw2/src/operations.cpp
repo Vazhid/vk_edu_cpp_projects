@@ -49,4 +49,5 @@ void ReplaceOperation::HandleEndOfInput() {
 
 void ReplaceOperation::SetNextOperation(IOperation& operation) {
     operation.ProcessLine(text_);
+    operation.HandleEndOfInput();
 }

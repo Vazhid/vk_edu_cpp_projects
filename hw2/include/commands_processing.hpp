@@ -18,6 +18,6 @@ struct operation_t {
     std::string second;
 };
 
-void StrSplitToVect(std::string& str, const std::string& sep, const int sep_len, std::vector <std::string>& str_vect);
-void ParseArgument(const std::string& string_of_commands, std::vector<operation_t>& vect_of_operations);
-void SetVectOfOperations(const std::vector<operation_t>& command_vect, std::vector<std::unique_ptr<IOperation>>& vect_of_operations);
+std::vector<std::string> StrSplitToVect(const std::string& str, const std::string& sep, const int sep_len);
+std::vector<operation_t> ParseArgument(const std::string& string_of_commands);
+std::vector<std::unique_ptr<IOperation>> SetVectOfOperations(const std::vector<operation_t>& command_vect);
