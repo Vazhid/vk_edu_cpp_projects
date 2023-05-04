@@ -6,6 +6,9 @@
 
 #include "text_processing.hpp"
 
+#define STOPWORDS_FILENAME "stopwords_ru.txt"
+#define DOCUMENTS_FILENAME "documents.txt"
+
 class IVectorizer {
  private: 
  public:
@@ -17,7 +20,8 @@ class VectorizerTFIDF : public IVectorizer {
  private:
   std::string text_;
   std::vector<double> vect_;
-  std::string filename_;
+  std::string stopwords_filename_;
+  std::string documents_filename_;
   double tf_;
   double idf_;
 
@@ -27,8 +31,13 @@ class VectorizerTFIDF : public IVectorizer {
   void stemmize_text(IStemmer& stemmer);
 
  public:
-  explicit VectorizerTFIDF(const std::string& text) : text_(text) {}
   VectorizerTFIDF() = default;
+  explicit VectorizerTFIDF(const std::string& text) 
+    : text_(text),
+      stopwords_filename_(STOPWORDS_FILENAME),
+      documents_filename_(DOCUMENTS_FILENAME) {}
+
+  
   void vectorize(ITokenizer& tokenizer, IStemmer& stemmer);
   void set_text(const std::string& text);
   void set_filename(const std::string& filename);

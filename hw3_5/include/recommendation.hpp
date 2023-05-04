@@ -16,9 +16,8 @@ class Recommendation {
   std::vector<Profile> recommended_profiles_;
  public:
   Recommendation() = delete;
-  Recommendation(Profile profile, const std::vector<Profile>& recommended_profiles) 
+  Recommendation(Profile& profile, const std::vector<Profile>& recommended_profiles) 
     : profile_(profile),
       recommended_profiles_(recommended_profiles) {}
   void recommend();
-  std::vector<Profile> get_recommended_profiles();
 };
