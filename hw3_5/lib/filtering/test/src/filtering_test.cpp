@@ -54,3 +54,27 @@ TEST(CosSimilarityCalculatorTest, SomeVectors1) {
     double expect_similarity = 0.5;
     EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
+
+TEST(FilterTest, Filter) {
+    User user;
+    user.text_vect_ = {1.0, 2.0, 3.0, 4.0};
+
+    std::vector<User> rec_users;
+    for (int i = 0; i < 2; i++) {
+        User user_tmp;
+        user_tmp.text_vect_ = {10.0+i, 2.0+i, 30.0+i, 4.0+i};
+        rec_users.push_back(user_tmp);
+    }
+    CosSimilarityCalculator calc;
+
+    Filter filt(user, rec_users);
+    filt.calculate_users_similiarity(calc);
+
+    User expect_user_0;
+    expect_user_0.similarity_ = 0.70;
+    User expect_user_1;
+    expect_user_1.similarity_ = 0.72;
+    
+    EXPECT_EQ(rec_users[0].similarity_, expect_user_0.similarity_);
+    EXPECT_EQ(rec_users[1].similarity_, expect_user_1.similarity_);
+}
