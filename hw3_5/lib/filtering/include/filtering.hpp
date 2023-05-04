@@ -14,14 +14,14 @@ class SimilarityCalculator {
  private:
  public:
    virtual void calculate() = 0;
-   virtual double get_cos_similarity() = 0;
+   virtual double get_similarity() = 0;
 };
 
 class CosSimilarityCalculator : public SimilarityCalculator {
  private:
     std::vector<double> first_;
     std::vector<double> second_;
-    double cos_sim_;
+    double cos_similarity_;
 
  public:
    CosSimilarityCalculator() = default;
@@ -31,7 +31,7 @@ class CosSimilarityCalculator : public SimilarityCalculator {
    
    void set_vectors(std::vector<double> first, std::vector<double> second);
    void calculate();
-   double get_cos_similarity();
+   double get_similarity();
 };
 
 struct User {
@@ -40,9 +40,9 @@ struct User {
    size_t id_;
    std::vector<double> text_vect_;
    std::vector<double> interest_vect_;
-   double cos_similarity;
+   double similarity;
    bool operator< (const User& p) const {
-     return this->cos_similarity < p.cos_similarity;
+     return this->similarity < p.similarity;
    }
 };
 
@@ -52,7 +52,7 @@ class Filter {
    std::vector<User> recommended_users_;
 
  public:
-   void calculate_users_cos_sim(CosSimilarityCalculator& cos_sim_calculator);
+   void calculate_users_similiarity(CosSimilarityCalculator& cos_sim_calculator);
    void set_recommended_users(std::vector<User> recommended_users);
    std::vector<User> get_recommended_users();
 };

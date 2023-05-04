@@ -15,15 +15,24 @@ class IVectorizer {
 
 class VectorizerTFIDF : public IVectorizer {
  private:
-   std::string text_;
-   std::vector<double> vect_;
+  std::string text_;
+  std::vector<double> vect_;
+  std::string filename_;
+  double tf_;
+  double idf_;
 
-   double calculate_TF(std::string word, const std::string& text);
-   double calculate_IDF(std::string word, const std::string& filename);
-   void tokenize_text(ITokenizer& tokenizer);
-   void stemmize_text(IStemmer& stemmer);
+  double calculate_TF(const std::string& word, const std::string& text);
+  double calculate_IDF(std::string word, const std::string& filename);
+  void tokenize_text(ITokenizer& tokenizer);
+  void stemmize_text(IStemmer& stemmer);
 
  public:
-   void vectorize(ITokenizer& tokenizer, IStemmer& stemmer);
-   std::vector<double> get_vect();
+  explicit VectorizerTFIDF(const std::string& text) : text_(text) {}
+  VectorizerTFIDF() = default;
+  void vectorize(ITokenizer& tokenizer, IStemmer& stemmer);
+  void set_text(const std::string& text);
+  void set_filename(const std::string& filename);
+  std::vector<double> get_vect();
+  double get_tf(const std::string& word);
+  double get_idf(const std::string& word);
 };

@@ -7,7 +7,7 @@ TEST(CosSimilarityCalculatorTest, EmptyVectors) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = 1;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
 
 TEST(CosSimilarityCalculatorTest, EqualVectors) {
@@ -16,7 +16,7 @@ TEST(CosSimilarityCalculatorTest, EqualVectors) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = 1.0;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
 
 TEST(CosSimilarityCalculatorTest, VeryCloseVectors) {
@@ -25,7 +25,7 @@ TEST(CosSimilarityCalculatorTest, VeryCloseVectors) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = 0.99;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
 
 TEST(CosSimilarityCalculatorTest, CloseVectors) {
@@ -34,7 +34,7 @@ TEST(CosSimilarityCalculatorTest, CloseVectors) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = 0.88;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
 
 TEST(CosSimilarityCalculatorTest, OppositeVectors) {
@@ -43,7 +43,7 @@ TEST(CosSimilarityCalculatorTest, OppositeVectors) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = -1;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
 
 TEST(CosSimilarityCalculatorTest, SomeVectors1) {
@@ -52,5 +52,5 @@ TEST(CosSimilarityCalculatorTest, SomeVectors1) {
     CosSimilarityCalculator calculator(first, second);
     calculator.calculate();
     double expect_similarity = 0.5;
-    EXPECT_EQ(calculator.get_cos_similarity(), expect_similarity);
+    EXPECT_EQ(calculator.get_similarity(), expect_similarity);
 };
